@@ -3,7 +3,7 @@ layout: post
 title: "Rubyist wallpaper"
 date: 2012-03-01 14:08
 comments: true
-categories:
+categories: [Ruby, Mac, Wallpaper]
 ---
 
 It's another post from *"[Wallpaper](http://localhost:4000/blog/categories/wallpaper/)"* series. This time, there is wallpaper especially for
