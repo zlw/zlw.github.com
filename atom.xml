@@ -1,112 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Krzysztof Zalewski</title>
-  <meta name="author" content="Krzysztof Zalewski">
-
-  
-  <meta name="description" content="HStore is great feature in PostgreSQL. It allows us to use &ldquo;mini-noSQL&rdquo; db in out pg table. Nice! Rails4 will have this baked-in, but now &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://zlw.github.io">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Krzysztof Zalewski" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-29568428-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Krzysztof Zalewski</a></h1>
-  
-    <h2>zlw@github:pages</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:zlw.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Krzysztof Zalewski]]></title>
+  <link href="http://zlw.github.io/atom.xml" rel="self"/>
+  <link href="http://zlw.github.io/"/>
+  <updated>2014-01-16T17:04:20+01:00</updated>
+  <id>http://zlw.github.io/</id>
+  <author>
+    <name><![CDATA[Krzysztof Zalewski]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2012/06/09/rails-attr-accessor-for-hstore/">Rails: Attr_accessor for HStore</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-06-09T16:27:00+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>HStore is great feature in PostgreSQL. It allows us to use &ldquo;mini-noSQL&rdquo; db in out pg table. Nice!</p>
+  <entry>
+    <title type="html"><![CDATA[Rails: Attr_accessor for HStore]]></title>
+    <link href="http://zlw.github.io/blog/2012/06/09/rails-attr-accessor-for-hstore/"/>
+    <updated>2012-06-09T16:27:00+02:00</updated>
+    <id>http://zlw.github.io/blog/2012/06/09/rails-attr-accessor-for-hstore</id>
+    <content type="html"><![CDATA[<p>HStore is great feature in PostgreSQL. It allows us to use &ldquo;mini-noSQL&rdquo; db in out pg table. Nice!</p>
 
 <p>Rails4 will have this baked-in, but now we have to use great gem <a href="https://github.com/softa/activerecord-postgres-hstore">activerecord-postgres-hstore</a>.</p>
 
@@ -276,81 +188,27 @@
 </span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">weight</span> <span class="c1">#=&gt; 100kg</span>
 </span></code></pre></td></tr></table></div></figure>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech/">Node.js Is Bad Ass Rock Star Tech</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-11T01:29:00+01:00" pubdate data-updated="true">Mar 11<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class="embed-video-container"><iframe src="http://www.youtube.com/embed/bzkRVzciAZg "></iframe></div>
+  <entry>
+    <title type="html"><![CDATA[Node.js Is Bad Ass Rock Star Tech]]></title>
+    <link href="http://zlw.github.io/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech/"/>
+    <updated>2012-03-11T01:29:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech</id>
+    <content type="html"><![CDATA[<div class="embed-video-container"><iframe src="http://www.youtube.com/embed/bzkRVzciAZg "></iframe></div>
 
 
 <p>Love this :)</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/10/tommorow-night-theme/">Tommorow Night Theme</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-10T14:59:00+01:00" pubdate data-updated="true">Mar 10<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is great theme called Tommorow Night. It&rsquo;s brought for many text editors and IDEs. I use it in RubyMine.
+  <entry>
+    <title type="html"><![CDATA[Tommorow Night Theme]]></title>
+    <link href="http://zlw.github.io/blog/2012/03/10/tommorow-night-theme/"/>
+    <updated>2012-03-10T14:59:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/03/10/tommorow-night-theme</id>
+    <content type="html"><![CDATA[<p>There is great theme called Tommorow Night. It&rsquo;s brought for many text editors and IDEs. I use it in RubyMine.
 Unfortunatelly it&rsquo;s not really up-to-date. HAML, SASS or CoffeeScript support is broken. That&rsquo;s why I created modified version.</p>
 
 <p>You can download it and install like this:</p>
@@ -379,42 +237,15 @@ Unfortunatelly it&rsquo;s not really up-to-date. HAML, SASS or CoffeeScript supp
 <p><img src="http://dl.dropbox.com/u/1731162/zlw.github.com/rubymine-tommorow-night/sass.png"></p>
 
 <p>I need to check how this color scheme looks like with Python and Django and make some changes if needed.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/01/rubyist-wallpaper/">Rubyist Wallpaper</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-01T14:08:00+01:00" pubdate data-updated="true">Mar 1<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>It&rsquo;s another post from <em>&ldquo;<a href="http://localhost:4000/blog/categories/wallpaper/">Wallpaper</a>&rdquo;</em> series. This time, there is wallpaper especially for
+  <entry>
+    <title type="html"><![CDATA[Rubyist Wallpaper]]></title>
+    <link href="http://zlw.github.io/blog/2012/03/01/rubyist-wallpaper/"/>
+    <updated>2012-03-01T14:08:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/03/01/rubyist-wallpaper</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s another post from <em>&ldquo;<a href="http://localhost:4000/blog/categories/wallpaper/">Wallpaper</a>&rdquo;</em> series. This time, there is wallpaper especially for
 Rubyist (if someone does not know, this is common expression for Ruby programmer).</p>
 
 <h2>Wallpaper</h2>
@@ -433,42 +264,15 @@ Rubyist (if someone does not know, this is common expression for Ruby programmer
 Scala, Clojure, Erlang, Haskell, Python etc. (yes, that&rsquo;s <strong>the list</strong> of languages I like and/or want to learn)</p>
 
 <p>But again, I&rsquo;m <code>the worst Photoshop user in the world</code> &trade;</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/29/param-protected-cuts-out-important-attributes/">Param_protected Cuts Out Important Attributes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-29T14:22:00+01:00" pubdate data-updated="true">Feb 29<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I am huge fan of <a href="https://github.com/cjbottaro/param_protected">param_protected</a>
+  <entry>
+    <title type="html"><![CDATA[Param_protected Cuts Out Important Attributes]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes/"/>
+    <updated>2012-02-29T14:22:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes</id>
+    <content type="html"><![CDATA[<p>I am huge fan of <a href="https://github.com/cjbottaro/param_protected">param_protected</a>
 which I use instead of <a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_accessible">attr_accessible</a>/<a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_protected">attr_protected</a>.</p>
 
 <p>I think it&rsquo;s not model thing to allow or deny attributes. Ok, maybe in case of User model I would protect it in controller and model too.</p>
@@ -506,42 +310,15 @@ which I use instead of <a href="http://api.rubyonrails.org/classes/ActiveModel/M
 
 <p>This post is rewrite of <em>&ldquo;<a href="http://kzalewski.blogspot.com/2012/01/paramprotected-wycina-potrzebne.html">param_protected wycina potrzebne parametry</a>&rdquo;</em>
 from my previous blog.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/29/awesome-wallpaper/">Awesome Wallpaper</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-29T12:54:00+01:00" pubdate data-updated="true">Feb 29<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I came from Linux to Mac about 4-5 months ago. As you might know, in Linux you can change almost everything.
+  <entry>
+    <title type="html"><![CDATA[Awesome Wallpaper]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/29/awesome-wallpaper/"/>
+    <updated>2012-02-29T12:54:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/29/awesome-wallpaper</id>
+    <content type="html"><![CDATA[<p>I came from Linux to Mac about 4-5 months ago. As you might know, in Linux you can change almost everything.
 Apple don&rsquo;t go that way with Macs. You take it <em>&ldquo;as is&rdquo;</em> and everything you can <strong>easily</strong> change in GUI is wallpaper.
 Oh, okay, you can move Dock to the left or right side of the screen ;)</p>
 
@@ -555,42 +332,15 @@ So, you can like it or not, I will post some awesome wallpaper from time to time
 <h2>Desktop</h2>
 
 <p><img src="http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/desktops/abstract.png"></p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/28/how-to-proper-test-named-scopes/">How to Proper Test Named Scopes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-28T20:18:00+01:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I just read few posts about <em>&ldquo;how to test named scopes&rdquo;</em>. It was tons of bullshit.
+  <entry>
+    <title type="html"><![CDATA[How to Proper Test Named Scopes]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes/"/>
+    <updated>2012-02-28T20:18:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes</id>
+    <content type="html"><![CDATA[<p>I just read few posts about <em>&ldquo;how to test named scopes&rdquo;</em>. It was tons of bullshit.
 I am asking &ndash; why should I use FactoryGirl or raw models and create a lot of unnecessary stuff (objects, db rows etc.) just to test <code>order(:position).first</code>?!</p>
 
 <p>But first, let&rsquo;s create <code>Post</code> model. Just an example for this note.</p>
@@ -720,42 +470,15 @@ I am asking &ndash; why should I use FactoryGirl or raw models and create a lot 
 
 <p>I think it&rsquo;s useless to test Rails&rsquo;s elements (like <code>where</code> or <code>order</code>). Rails is really proper tested.
 Instead we should spec <strong>messages</strong> between object and passed <strong>parameters</strong>.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/28/hello-world-on-new-blog/">Hello World on New Blog</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-28T20:14:00+01:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Hello World!</h2>
+  <entry>
+    <title type="html"><![CDATA[Hello World on New Blog]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/28/hello-world-on-new-blog/"/>
+    <updated>2012-02-28T20:14:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/28/hello-world-on-new-blog</id>
+    <content type="html"><![CDATA[<h2>Hello World!</h2>
 
 <p>This is my.. (counting) .. 4th or 5th weblog. I tried wordpress, blogger, tumblr and many others.
 But as every hacker knows, writing in markdown is much better than shitty WYSIWYG editors.</p>
@@ -778,123 +501,7 @@ That is so hipster that I could not resist!</p>
 Meantime, if you want to read it: <a href="http://kzalewski.blogspot.com/">KrzysztofZalewski::Blog@Blogspot</a>. Oh, yes, it is in Polish.</p>
 
 <p>So, see you next time!</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/06/09/rails-attr-accessor-for-hstore/">Rails: Attr_accessor for HStore</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech/">Node.js Is Bad Ass Rock Star Tech</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/10/tommorow-night-theme/">Tommorow Night Theme</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/01/rubyist-wallpaper/">Rubyist Wallpaper</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/29/param-protected-cuts-out-important-attributes/">Param_protected Cuts Out Important Attributes</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/zlw">@zlw</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'zlw',
-            count: 0,
-            skip_forks: false,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Krzysztof Zalewski -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'zlw';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

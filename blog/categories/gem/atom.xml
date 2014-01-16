@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Gem | Krzysztof Zalewski]]></title>
+  <link href="http://zlw.github.io/blog/categories/gem/atom.xml" rel="self"/>
+  <link href="http://zlw.github.io/"/>
+  <updated>2014-01-16T17:04:20+01:00</updated>
+  <id>http://zlw.github.io/</id>
+  <author>
+    <name><![CDATA[Krzysztof Zalewski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Param_protected Cuts Out Important Attributes]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes/"/>
+    <updated>2012-02-29T14:22:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes</id>
+    <content type="html"><![CDATA[<p>I am huge fan of <a href="https://github.com/cjbottaro/param_protected">param_protected</a>
+which I use instead of <a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_accessible">attr_accessible</a>/<a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_protected">attr_protected</a>.</p>
+
+<p>I think it&rsquo;s not model thing to allow or deny attributes. Ok, maybe in case of User model I would protect it in controller and model too.</p>
+
+<p>Anyway, it turns out that param_protected cuts out some really important parameters &ndash; like <code>action</code> or <code>commit</code>.</p>
+
+<p>It is super easy to fix, but unfortunately it&rsquo;s not mentioned in documentation. So, let&rsquo;s add out parameters whitelist.</p>
+
+<p><code>ruby application_controller.rb
+class ApplicationController &lt; ActionController::Base
+  param_accessible [:controller, :action, :id, :utf8, :commit]
+  param_accessible [:authenticity_token] # this is for Devise
+  param_accessible [:page], only: :index # this is for will_paginate/kaminari
+end
+</code></p>
+
+<p><code>controller</code>, <code>action</code> and <code>id</code> are self-explanatory. <code>utf8</code> and <code>commit</code> are used by Rails forms</p>
+
+<p>I added some additional attributes:</p>
+
+<ul>
+<li><code>authenticity_token</code> which is used by Devise (maybe some other auth gems too)</li>
+<li><code>page</code> which is used by will_paginate/kaminari</li>
+</ul>
+
+
+<p><code>page</code> is allowed only on <code>index</code> action, because that&rsquo;s where pagination is used</p>
+
+<hr />
+
+<p>This post is rewrite of <em>&ldquo;<a href="http://kzalewski.blogspot.com/2012/01/paramprotected-wycina-potrzebne.html">param_protected wycina potrzebne parametry</a>&rdquo;</em>
+from my previous blog.</p>
+]]></content>
+  </entry>
+  
+</feed>

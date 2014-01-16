@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | Krzysztof Zalewski]]></title>
+  <link href="http://zlw.github.io/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://zlw.github.io/"/>
+  <updated>2014-01-16T17:04:20+01:00</updated>
+  <id>http://zlw.github.io/</id>
+  <author>
+    <name><![CDATA[Krzysztof Zalewski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: Attr_accessor for HStore]]></title>
+    <link href="http://zlw.github.io/blog/2012/06/09/rails-attr-accessor-for-hstore/"/>
+    <updated>2012-06-09T16:27:00+02:00</updated>
+    <id>http://zlw.github.io/blog/2012/06/09/rails-attr-accessor-for-hstore</id>
+    <content type="html"><![CDATA[<p>HStore is great feature in PostgreSQL. It allows us to use &ldquo;mini-noSQL&rdquo; db in out pg table. Nice!</p>
+
+<p>Rails4 will have this baked-in, but now we have to use great gem <a href="https://github.com/softa/activerecord-postgres-hstore">activerecord-postgres-hstore</a>.</p>
+
+<p>The only problem is, that there&rsquo;s no accessor methods. Let&rsquo;s assume that our model (Product) need price and weight. We will have to write something like this:</p>
+
+<p>``` ruby product.rb
+class Product &lt; ActiveRecord::Base
+  def price</p>
+
+<pre><code>data &amp;&amp; data['price']
+</code></pre>
+
+<p>  end</p>
+
+<p>  def price=(val)</p>
+
+<pre><code>self.data = (data || {}).merge(price: val)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def weight</p>
+
+<pre><code>data &amp;&amp; data['weight']
+</code></pre>
+
+<p>  end</p>
+
+<p>  def weight=(val)</p>
+
+<pre><code>self.data = (data || {}).merge(weight: val)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>A lot of repetition. Definetly not DRY. We could use some metaprogramming and create this:</p>
+
+<p>```ruby product.rb
+class Product &lt; ActiveRecord::Base
+  [:price, :weight].each do |e|</p>
+
+<pre><code>define_method e do
+  data &amp;&amp; data[e.to_s]
+end
+
+define_method :"#{e}=" do |val|
+  self.data = (data || {}).merge(e =&gt; val)
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Nice, a lot cleaner. But maybe extract this so we could use it anywhere?</p>
+
+<p>```ruby hstore_accessor.rb
+module HstoreAccessor
+  extend ActiveSupport::Concern</p>
+
+<p>  module ClassMethods</p>
+
+<pre><code># Define accessors method for HStore field
+#
+# @param [Symbol] hstore name of HStore field
+# @param [Array] fields list of accessors methods to define
+def hstore_accessor(hstore, *fields)
+  fields.each do |field|
+    define_hstore_reader hstore, field
+    define_hstore_writer hstore, field
+  end
+end
+
+
+private
+
+def define_hstore_reader(hstore, field)
+  define_method field do
+    send(hstore) &amp;&amp; send(hstore)[field]
+  end
+end
+
+def define_hstore_writer(hstore, field)
+  define_method :"#{field}=" do |val|
+    val = (send(hstore) || {}).merge(field =&gt; val)
+    send(:"#{hstore}=", val)
+  end
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Now we can do this:</p>
+
+<p><code>ruby product.rb
+class Product &lt; ActiveRecord::Base
+  include HstoreAccessor
+  hstore_accessor :data, :price, :weight
+end
+</code></p>
+
+<p>```ruby Usage
+p = Product.new</p>
+
+<p>p.price = &lsquo;$45&rsquo;
+p.price #=> $45</p>
+
+<p>p.weight = &lsquo;100kg&rsquo;
+p.weight #=> 100kg
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Param_protected Cuts Out Important Attributes]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes/"/>
+    <updated>2012-02-29T14:22:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes</id>
+    <content type="html"><![CDATA[<p>I am huge fan of <a href="https://github.com/cjbottaro/param_protected">param_protected</a>
+which I use instead of <a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_accessible">attr_accessible</a>/<a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_protected">attr_protected</a>.</p>
+
+<p>I think it&rsquo;s not model thing to allow or deny attributes. Ok, maybe in case of User model I would protect it in controller and model too.</p>
+
+<p>Anyway, it turns out that param_protected cuts out some really important parameters &ndash; like <code>action</code> or <code>commit</code>.</p>
+
+<p>It is super easy to fix, but unfortunately it&rsquo;s not mentioned in documentation. So, let&rsquo;s add out parameters whitelist.</p>
+
+<p><code>ruby application_controller.rb
+class ApplicationController &lt; ActionController::Base
+  param_accessible [:controller, :action, :id, :utf8, :commit]
+  param_accessible [:authenticity_token] # this is for Devise
+  param_accessible [:page], only: :index # this is for will_paginate/kaminari
+end
+</code></p>
+
+<p><code>controller</code>, <code>action</code> and <code>id</code> are self-explanatory. <code>utf8</code> and <code>commit</code> are used by Rails forms</p>
+
+<p>I added some additional attributes:</p>
+
+<ul>
+<li><code>authenticity_token</code> which is used by Devise (maybe some other auth gems too)</li>
+<li><code>page</code> which is used by will_paginate/kaminari</li>
+</ul>
+
+
+<p><code>page</code> is allowed only on <code>index</code> action, because that&rsquo;s where pagination is used</p>
+
+<hr />
+
+<p>This post is rewrite of <em>&ldquo;<a href="http://kzalewski.blogspot.com/2012/01/paramprotected-wycina-potrzebne.html">param_protected wycina potrzebne parametry</a>&rdquo;</em>
+from my previous blog.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Proper Test Named Scopes]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes/"/>
+    <updated>2012-02-28T20:18:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes</id>
+    <content type="html"><![CDATA[<p>I just read few posts about <em>&ldquo;how to test named scopes&rdquo;</em>. It was tons of bullshit.
+I am asking &ndash; why should I use FactoryGirl or raw models and create a lot of unnecessary stuff (objects, db rows etc.) just to test <code>order(:position).first</code>?!</p>
+
+<p>But first, let&rsquo;s create <code>Post</code> model. Just an example for this note.</p>
+
+<p>```ruby post.rb
+class Post &lt; ActiveRecord::Base
+  belongs_to :user</p>
+
+<p>  def self.recent</p>
+
+<pre><code>order('created_at DESC').first
+</code></pre>
+
+<p>  end</p>
+
+<p>  def self.for_user(user_id)</p>
+
+<pre><code>where(user_id: user_id)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>As you see, there are 2 simple scopes. I am not huge fan of Rails&rsquo;s named scopes &ndash; I use plain old class methods instead.</p>
+
+<h2>How not to do this</h2>
+
+<p>```ruby post_spec.rb
+require &lsquo;spec_helper&rsquo;</p>
+
+<p>describe Post do
+  context &lsquo;#recent&rsquo; do</p>
+
+<pre><code>it 'should return most recent post' do
+  _, post = [Factory(:post), Factory(:post)]
+
+  Post.recent.should == post
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  context &lsquo;#for_user&rsquo; do</p>
+
+<pre><code>it 'should return only posts created by given user' do
+  post1, post2, _ = [Factory(:post, user_id: 1), Factory(:post, user_id: 1), Factory(:post, user_id: 2)]
+
+  Post.for_user(1).should == [post1, post2]
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>We&rsquo;ve just created .. let&rsquo;s count .. 5 objects and made 2 unnecessary db queries.</p>
+
+<h2>How to do this</h2>
+
+<p>```ruby post_spec.rb
+require &lsquo;spec_helper&rsquo;</p>
+
+<p>describe Post do
+  context &lsquo;#recent&rsquo; do</p>
+
+<pre><code>it 'should return most recent post' do
+  post = mock_model Post
+
+  Post.should_receive(:order).with('created_at DESC').and_return post
+  post.should_receive(:first).and_return post
+
+  Post.recent
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  context &lsquo;#for_user&rsquo; do</p>
+
+<pre><code>it 'should return only posts created by given user' do
+  post = mock_model Post
+
+  Post.should_receive(:where).with(user_id: 1)
+  Post.for_user 1
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>I think it&rsquo;s useless to test Rails&rsquo;s elements (like <code>where</code> or <code>order</code>). Rails is really proper tested.
+Instead we should spec <strong>messages</strong> between object and passed <strong>parameters</strong>.</p>
+]]></content>
+  </entry>
+  
+</feed>

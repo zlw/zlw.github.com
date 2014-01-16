@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: IDE | Krzysztof Zalewski]]></title>
+  <link href="http://zlw.github.io/blog/categories/ide/atom.xml" rel="self"/>
+  <link href="http://zlw.github.io/"/>
+  <updated>2014-01-16T17:04:20+01:00</updated>
+  <id>http://zlw.github.io/</id>
+  <author>
+    <name><![CDATA[Krzysztof Zalewski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tommorow Night Theme]]></title>
+    <link href="http://zlw.github.io/blog/2012/03/10/tommorow-night-theme/"/>
+    <updated>2012-03-10T14:59:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/03/10/tommorow-night-theme</id>
+    <content type="html"><![CDATA[<p>There is great theme called Tommorow Night. It&rsquo;s brought for many text editors and IDEs. I use it in RubyMine.
+Unfortunatelly it&rsquo;s not really up-to-date. HAML, SASS or CoffeeScript support is broken. That&rsquo;s why I created modified version.</p>
+
+<p>You can download it and install like this:</p>
+
+<p><code>bash
+$ cd ~/Library/Preferences/RubyMine40/colors
+$ wget https://raw.github.com/gist/2011486/TommorowNight.xml
+</code></p>
+
+<p>Get original Tommorow Theme from <a href="https://github.com/chriskempson/Tomorrow-Theme/tree/master/Jetbrains">here</a></p>
+
+<h2>Some examples</h2>
+
+<h3>Ruby</h3>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/rubymine-tommorow-night/ruby.png">http://dl.dropbox.com/u/1731162/zlw.github.com/rubymine-tommorow-night/ruby.png</a>"></p>
+
+<h3>HAML</h3>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/rubymine-tommorow-night/haml.png">http://dl.dropbox.com/u/1731162/zlw.github.com/rubymine-tommorow-night/haml.png</a>"></p>
+
+<h3>SASS</h3>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/rubymine-tommorow-night/sass.png">http://dl.dropbox.com/u/1731162/zlw.github.com/rubymine-tommorow-night/sass.png</a>"></p>
+
+<p>I need to check how this color scheme looks like with Python and Django and make some changes if needed.</p>
+]]></content>
+  </entry>
+  
+</feed>

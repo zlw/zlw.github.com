@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Wallpaper | Krzysztof Zalewski]]></title>
+  <link href="http://zlw.github.io/blog/categories/wallpaper/atom.xml" rel="self"/>
+  <link href="http://zlw.github.io/"/>
+  <updated>2014-01-16T17:04:20+01:00</updated>
+  <id>http://zlw.github.io/</id>
+  <author>
+    <name><![CDATA[Krzysztof Zalewski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rubyist Wallpaper]]></title>
+    <link href="http://zlw.github.io/blog/2012/03/01/rubyist-wallpaper/"/>
+    <updated>2012-03-01T14:08:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/03/01/rubyist-wallpaper</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s another post from <em>&ldquo;<a href="http://localhost:4000/blog/categories/wallpaper/">Wallpaper</a>&rdquo;</em> series. This time, there is wallpaper especially for
+Rubyist (if someone does not know, this is common expression for Ruby programmer).</p>
+
+<h2>Wallpaper</h2>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/ruby_green.png">http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/ruby_green.png</a>"></p>
+
+<p>It&rsquo;s modified (by me, <code>the worst Photoshop user in the world</code> &trade;) version of this:</p>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/ruby_green_original.png">http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/ruby_green_original.png</a>"></p>
+
+<h2>Desktop</h2>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/desktops/ruby_green.png">http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/desktops/ruby_green.png</a>"></p>
+
+<p>I&rsquo;m thinking about whole series with different programming languages logos &ndash;
+Scala, Clojure, Erlang, Haskell, Python etc. (yes, that&rsquo;s <strong>the list</strong> of languages I like and/or want to learn)</p>
+
+<p>But again, I&rsquo;m <code>the worst Photoshop user in the world</code> &trade;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Awesome Wallpaper]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/29/awesome-wallpaper/"/>
+    <updated>2012-02-29T12:54:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/29/awesome-wallpaper</id>
+    <content type="html"><![CDATA[<p>I came from Linux to Mac about 4-5 months ago. As you might know, in Linux you can change almost everything.
+Apple don&rsquo;t go that way with Macs. You take it <em>&ldquo;as is&rdquo;</em> and everything you can <strong>easily</strong> change in GUI is wallpaper.
+Oh, okay, you can move Dock to the left or right side of the screen ;)</p>
+
+<p>That&rsquo;s why I am crazy about wallpapers, just like I was about changing GUI on Linux.
+So, you can like it or not, I will post some awesome wallpaper from time to time.</p>
+
+<h2>Wallpaper</h2>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/abstract.jpg">http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/abstract.jpg</a>"></p>
+
+<h2>Desktop</h2>
+
+<p><img class="<a" src="href="http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/desktops/abstract.png">http://dl.dropbox.com/u/1731162/zlw.github.com/images/wallpapers/desktops/abstract.png</a>"></p>
+]]></content>
+  </entry>
+  
+</feed>

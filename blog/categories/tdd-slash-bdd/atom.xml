@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: TDD/BDD | Krzysztof Zalewski]]></title>
+  <link href="http://zlw.github.io/blog/categories/tdd-slash-bdd/atom.xml" rel="self"/>
+  <link href="http://zlw.github.io/"/>
+  <updated>2014-01-16T17:04:20+01:00</updated>
+  <id>http://zlw.github.io/</id>
+  <author>
+    <name><![CDATA[Krzysztof Zalewski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Proper Test Named Scopes]]></title>
+    <link href="http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes/"/>
+    <updated>2012-02-28T20:18:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes</id>
+    <content type="html"><![CDATA[<p>I just read few posts about <em>&ldquo;how to test named scopes&rdquo;</em>. It was tons of bullshit.
+I am asking &ndash; why should I use FactoryGirl or raw models and create a lot of unnecessary stuff (objects, db rows etc.) just to test <code>order(:position).first</code>?!</p>
+
+<p>But first, let&rsquo;s create <code>Post</code> model. Just an example for this note.</p>
+
+<p>```ruby post.rb
+class Post &lt; ActiveRecord::Base
+  belongs_to :user</p>
+
+<p>  def self.recent</p>
+
+<pre><code>order('created_at DESC').first
+</code></pre>
+
+<p>  end</p>
+
+<p>  def self.for_user(user_id)</p>
+
+<pre><code>where(user_id: user_id)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>As you see, there are 2 simple scopes. I am not huge fan of Rails&rsquo;s named scopes &ndash; I use plain old class methods instead.</p>
+
+<h2>How not to do this</h2>
+
+<p>```ruby post_spec.rb
+require &lsquo;spec_helper&rsquo;</p>
+
+<p>describe Post do
+  context &lsquo;#recent&rsquo; do</p>
+
+<pre><code>it 'should return most recent post' do
+  _, post = [Factory(:post), Factory(:post)]
+
+  Post.recent.should == post
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  context &lsquo;#for_user&rsquo; do</p>
+
+<pre><code>it 'should return only posts created by given user' do
+  post1, post2, _ = [Factory(:post, user_id: 1), Factory(:post, user_id: 1), Factory(:post, user_id: 2)]
+
+  Post.for_user(1).should == [post1, post2]
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>We&rsquo;ve just created .. let&rsquo;s count .. 5 objects and made 2 unnecessary db queries.</p>
+
+<h2>How to do this</h2>
+
+<p>```ruby post_spec.rb
+require &lsquo;spec_helper&rsquo;</p>
+
+<p>describe Post do
+  context &lsquo;#recent&rsquo; do</p>
+
+<pre><code>it 'should return most recent post' do
+  post = mock_model Post
+
+  Post.should_receive(:order).with('created_at DESC').and_return post
+  post.should_receive(:first).and_return post
+
+  Post.recent
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  context &lsquo;#for_user&rsquo; do</p>
+
+<pre><code>it 'should return only posts created by given user' do
+  post = mock_model Post
+
+  Post.should_receive(:where).with(user_id: 1)
+  Post.for_user 1
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>I think it&rsquo;s useless to test Rails&rsquo;s elements (like <code>where</code> or <code>order</code>). Rails is really proper tested.
+Instead we should spec <strong>messages</strong> between object and passed <strong>parameters</strong>.</p>
+]]></content>
+  </entry>
+  
+</feed>

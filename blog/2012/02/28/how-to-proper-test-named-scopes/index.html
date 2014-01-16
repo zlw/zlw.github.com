@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Proper Test Named Scopes - Krzysztof Zalewski</title>
+  <meta name="author" content="Krzysztof Zalewski">
+
+  
+  <meta name="description" content="I just read few posts about &ldquo;how to test named scopes&rdquo;. It was tons of bullshit.
+I am asking &ndash; why should I use FactoryGirl or raw &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Krzysztof Zalewski" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29568428-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Krzysztof Zalewski</a></h1>
+  
+    <h2>zlw@github:pages</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zlw.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Proper Test Named Scopes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T20:18:00+01:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I just read few posts about <em>&ldquo;how to test named scopes&rdquo;</em>. It was tons of bullshit.
+I am asking &ndash; why should I use FactoryGirl or raw models and create a lot of unnecessary stuff (objects, db rows etc.) just to test <code>order(:position).first</code>?!</p>
+
+<p>But first, let&rsquo;s create <code>Post</code> model. Just an example for this note.</p>
+
+<figure class='code'><figcaption><span>post.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">recent</span>
+</span><span class='line'>    <span class="n">order</span><span class="p">(</span><span class="s1">&#39;created_at DESC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">for_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">user_id</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you see, there are 2 simple scopes. I am not huge fan of Rails&rsquo;s named scopes &ndash; I use plain old class methods instead.</p>
+
+<h2>How not to do this</h2>
+
+<figure class='code'><figcaption><span>post_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">context</span> <span class="s1">&#39;#recent&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;should return most recent post&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">_</span><span class="p">,</span> <span class="n">post</span> <span class="o">=</span> <span class="o">[</span><span class="no">Factory</span><span class="p">(</span><span class="ss">:post</span><span class="p">),</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:post</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">recent</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="n">post</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">context</span> <span class="s1">&#39;#for_user&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;should return only posts created by given user&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">post1</span><span class="p">,</span> <span class="n">post2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="o">[</span><span class="no">Factory</span><span class="p">(</span><span class="ss">:post</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:post</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="no">Factory</span><span class="p">(</span><span class="ss">:post</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">for_user</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="o">[</span><span class="n">post1</span><span class="p">,</span> <span class="n">post2</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;ve just created .. let&rsquo;s count .. 5 objects and made 2 unnecessary db queries.</p>
+
+<h2>How to do this</h2>
+
+<figure class='code'><figcaption><span>post_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">context</span> <span class="s1">&#39;#recent&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;should return most recent post&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">post</span> <span class="o">=</span> <span class="n">mock_model</span> <span class="no">Post</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:order</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="s1">&#39;created_at DESC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span> <span class="n">post</span>
+</span><span class='line'>      <span class="n">post</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:first</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span> <span class="n">post</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">recent</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">context</span> <span class="s1">&#39;#for_user&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s1">&#39;should return only posts created by given user&#39;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">post</span> <span class="o">=</span> <span class="n">mock_model</span> <span class="no">Post</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:where</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>      <span class="no">Post</span><span class="o">.</span><span class="n">for_user</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think it&rsquo;s useless to test Rails&rsquo;s elements (like <code>where</code> or <code>order</code>). Rails is really proper tested.
+Instead we should spec <strong>messages</strong> between object and passed <strong>parameters</strong>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Krzysztof Zalewski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-28T20:18:00+01:00" pubdate data-updated="true">Feb 28<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/tdd-slash-bdd/'>TDD/BDD</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes/" data-via="zlw" data-counturl="http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/28/hello-world-on-new-blog/" title="Previous Post: Hello World on new blog">&laquo; Hello World on new blog</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/02/29/awesome-wallpaper/" title="Next Post: Awesome wallpaper">Awesome wallpaper &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/06/09/rails-attr-accessor-for-hstore/">Rails: Attr_accessor for HStore</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech/">Node.js Is Bad Ass Rock Star Tech</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/10/tommorow-night-theme/">Tommorow Night Theme</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/01/rubyist-wallpaper/">Rubyist Wallpaper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/29/param-protected-cuts-out-important-attributes/">Param_protected Cuts Out Important Attributes</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zlw">@zlw</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zlw',
+            count: 0,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Krzysztof Zalewski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zlw';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes/';
+        var disqus_url = 'http://zlw.github.io/blog/2012/02/28/how-to-proper-test-named-scopes/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

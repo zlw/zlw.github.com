@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Node.js | Krzysztof Zalewski]]></title>
+  <link href="http://zlw.github.io/blog/categories/node-dot-js/atom.xml" rel="self"/>
+  <link href="http://zlw.github.io/"/>
+  <updated>2014-01-16T17:04:20+01:00</updated>
+  <id>http://zlw.github.io/</id>
+  <author>
+    <name><![CDATA[Krzysztof Zalewski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Node.js Is Bad Ass Rock Star Tech]]></title>
+    <link href="http://zlw.github.io/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech/"/>
+    <updated>2012-03-11T01:29:00+01:00</updated>
+    <id>http://zlw.github.io/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech</id>
+    <content type="html"><![CDATA[<p><div class="embed-video-container"><iframe src="http://www.youtube.com/embed/bzkRVzciAZg "></iframe></div></p>
+
+<p>Love this :)</p>
+]]></content>
+  </entry>
+  
+</feed>

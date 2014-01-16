@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Param_protected Cuts Out Important Attributes - Krzysztof Zalewski</title>
+  <meta name="author" content="Krzysztof Zalewski">
+
+  
+  <meta name="description" content="I am huge fan of param_protected
+which I use instead of attr_accessible/attr_protected. I think it&rsquo;s not model thing to allow or deny &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Krzysztof Zalewski" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29568428-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Krzysztof Zalewski</a></h1>
+  
+    <h2>zlw@github:pages</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zlw.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Param_protected Cuts Out Important Attributes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-29T14:22:00+01:00" pubdate data-updated="true">Feb 29<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I am huge fan of <a href="https://github.com/cjbottaro/param_protected">param_protected</a>
+which I use instead of <a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_accessible">attr_accessible</a>/<a href="http://api.rubyonrails.org/classes/ActiveModel/MassAssignmentSecurity/ClassMethods.html#method-i-attr_protected">attr_protected</a>.</p>
+
+<p>I think it&rsquo;s not model thing to allow or deny attributes. Ok, maybe in case of User model I would protect it in controller and model too.</p>
+
+<p>Anyway, it turns out that param_protected cuts out some really important parameters &ndash; like <code>action</code> or <code>commit</code>.</p>
+
+<p>It is super easy to fix, but unfortunately it&rsquo;s not mentioned in documentation. So, let&rsquo;s add out parameters whitelist.</p>
+
+<figure class='code'><figcaption><span>application_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="n">param_accessible</span> <span class="o">[</span><span class="ss">:controller</span><span class="p">,</span> <span class="ss">:action</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:utf8</span><span class="p">,</span> <span class="ss">:commit</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">param_accessible</span> <span class="o">[</span><span class="ss">:authenticity_token</span><span class="o">]</span> <span class="c1"># this is for Devise</span>
+</span><span class='line'>  <span class="n">param_accessible</span> <span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="ss">:index</span> <span class="c1"># this is for will_paginate/kaminari</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>controller</code>, <code>action</code> and <code>id</code> are self-explanatory. <code>utf8</code> and <code>commit</code> are used by Rails forms</p>
+
+<p>I added some additional attributes:</p>
+
+<ul>
+<li><code>authenticity_token</code> which is used by Devise (maybe some other auth gems too)</li>
+<li><code>page</code> which is used by will_paginate/kaminari</li>
+</ul>
+
+
+<p><code>page</code> is allowed only on <code>index</code> action, because that&rsquo;s where pagination is used</p>
+
+<hr />
+
+<p>This post is rewrite of <em>&ldquo;<a href="http://kzalewski.blogspot.com/2012/01/paramprotected-wycina-potrzebne.html">param_protected wycina potrzebne parametry</a>&rdquo;</em>
+from my previous blog.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Krzysztof Zalewski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-29T14:22:00+01:00" pubdate data-updated="true">Feb 29<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gem/'>Gem</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes/" data-via="zlw" data-counturl="http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/29/awesome-wallpaper/" title="Previous Post: Awesome wallpaper">&laquo; Awesome wallpaper</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/01/rubyist-wallpaper/" title="Next Post: Rubyist wallpaper">Rubyist wallpaper &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/06/09/rails-attr-accessor-for-hstore/">Rails: Attr_accessor for HStore</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/node-dot-js-is-bad-ass-rock-star-tech/">Node.js Is Bad Ass Rock Star Tech</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/10/tommorow-night-theme/">Tommorow Night Theme</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/01/rubyist-wallpaper/">Rubyist Wallpaper</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/29/param-protected-cuts-out-important-attributes/">Param_protected Cuts Out Important Attributes</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zlw">@zlw</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zlw',
+            count: 0,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Krzysztof Zalewski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zlw';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes/';
+        var disqus_url = 'http://zlw.github.io/blog/2012/02/29/param-protected-cuts-out-important-attributes/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
